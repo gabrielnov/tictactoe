@@ -1,10 +1,13 @@
 VAZIA = '.'
 MAQUINA = 'O'
 HUMANO = 'X'
+JOGADAS_VALIDAS = [MAQUINA, HUMANO]
 ST_CONTINUA = 1
 ST_MAQUINA_GANHOU = 2
 ST_HUMANO_GANHOU = 3
 ST_EMPATOU = 4
+
+dic_jogadas = {-1: 3, -2: 2, 0: 1, 1:2, 2:3 }
 
 def gerar():
     return [[VAZIA,VAZIA,VAZIA],[VAZIA,VAZIA,VAZIA],[VAZIA,VAZIA,VAZIA]]
@@ -32,20 +35,31 @@ def jogada_maquina(tab):
               if tab[i][j] == HUMANO:
 
                 # linha
+                if tab[i][j - 1] == HUMANO:
+                    if tab[i][j-2] not in JOGADAS_VALIDAS:                        
+                        return [i, j - 2]
                 if tab[i][j - 2] == HUMANO:
-                    return [i, j - 3]
-                if tab[i][j - 3] == HUMANO:
-                    return [i, j - 2]
+                    if tab[i][j-1] not in JOGADAS_VALIDAS:
+                        return [i, j - 1]
 
                 # coluna
                 if tab[i-1][j] == HUMANO:
-                    return [i-3, j]
-                if tab[1-2][j] == HUMANO:
-                    return [i-2, j]
+                    if tab[i-2][j] not in JOGADAS_VALIDAS:                        
+                        return [i-2, j]
+                if tab[i-2][j] == HUMANO:
+                    if tab[i-1][j] not in JOGADAS_VALIDAS:                       
+                        return [i-1, j]
 
                 # diagonal
                 if tab[1][1] == HUMANO:
-                    return [i-3, j-3]
+                    if tab[i-2][j-1] not in JOGADAS_VALIDAS:                        
+                        return [i-2, j-1]
+                if tab[i-1][j-1] == HUMANO:
+                    if tab[1][1] not in JOGADAS_VALIDAS:                        
+                        return [1, 1]        
+                if tab[i-2][j-1] == HUMANO:
+                    if tab[1][1] not in JOGADAS_VALIDAS:                        
+                        return [1, 1]
     
     for i in range(3):
         for j in range(3):
@@ -54,8 +68,12 @@ def jogada_maquina(tab):
                     
 
 def atualizar(tab, jogada, jogador):
-    i = jogada[0]-1
-    j = jogada[1]-1
+    if jogador == MAQUINA:
+        i = jogada[0]
+        j = jogada[1]
+    if jogador == HUMANO:
+        i = jogada[0] -1
+        j = jogada[1] -1
     tab[i][j] = jogador
 
 def ganhou(t, jogador):

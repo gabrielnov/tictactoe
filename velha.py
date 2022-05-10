@@ -18,7 +18,7 @@ while status == ST_CONTINUA:
         jogada = jogada_humano(tabuleiro)
     elif jogador == MAQUINA:
         jogada = jogada_maquina(tabuleiro)
-        print(f'Joguei na linha {jogada[0]} e na coluna {jogada[1]}...')
+        print(f'Joguei na linha {dic_jogadas[jogada[0]]} e na coluna {dic_jogadas[jogada[1]]}...')
     atualizar(tabuleiro, jogada, jogador)
     
     status = verificar(tabuleiro)
